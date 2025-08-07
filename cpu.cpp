@@ -23,6 +23,9 @@ void CPU::execute(uint32_t inst) {
     execute_i_type(inst, regs);
     break;
   case OPCODE_J:
+    print_pc();
+    print_regs();
+    print_mem(0x0000, 0x0100);
     std::exit(0); // for now
   default:
     std::cerr << "Unknown opcode: " << std::hex << +opcode << "\n";

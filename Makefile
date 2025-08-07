@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -O2
 
-SRC = main.cpp cpu.cpp memory.cpp instructions.cpp
+SRC = main.cpp cpu.cpp memory.cpp instructions.cpp print.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = riscvemu
 
