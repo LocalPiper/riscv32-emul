@@ -1,15 +1,29 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+CXX := g++
+CXXFLAGS := -std=c++20 -Wall -Wextra -Iinclude -g
 
-SRC = main.cpp cpu.cpp memory.cpp instructions.cpp print.cpp
-OBJ = $(SRC:.cpp=.o)
-TARGET = riscvemu
+SRC_DIR := src
+BUILD_DIR := build
+BIN := $(BUILD_DIR)/riscvemu
 
-all: $(TARGET)
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 
-$(TARGET): $(OBJ)
-	$(CXX) $(OBJ) -o $(TARGET)
+all: $(BIN)
+
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BIN): $(OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+run: all
+	$(BIN)
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(BUILD_DIR)
+
+.PHONY: all clean run
 
