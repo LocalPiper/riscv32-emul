@@ -19,36 +19,44 @@ void CPU::print_regs() const {
   for (int i = 0; i < 32; ++i) {
     std::ostringstream line;
 
-    line << std::left << std::setw(5) << regs_aliases[i];
+    line << "REG " << std::left << std::setw(5) << regs_aliases[i];
 
-    if (i < 16) {
-      line << "(x0" << std::hex << static_cast<unsigned>(i) << ")";
+    if (i < 10) {
+      line << "(x0" << std::dec << static_cast<unsigned>(i) << ")";
     } else {
-      line << "(x" << std::hex << static_cast<unsigned>(i) << ")";
+      line << "(x" << std::dec << static_cast<unsigned>(i) << ")";
     }
 
-    line << ": 0x" << std::setw(8) << std::setfill('0')
-         << static_cast<uint32_t>(regs[i]);
+    line << ": 0x";
+
+    uint32_t reg_val = regs[i];
+    for (int byte = 3; byte >= 0; --byte) {
+      uint8_t b = (reg_val >> (8 * byte)) & 0xff;
+      line << std::setw(2) << std::setfill('0') << std::hex << static_cast<int>(b);
+    }
 
     std::cout << line.str() << "\n";
   }
 }
 
 void CPU::print_mem(uint32_t start, uint32_t end) const {
-  std::cout << "Memory [0x" << std::hex << start << " - 0x" << std::hex << end
-            << "]:\n";
-  for (uint32_t addr = start; addr < end; addr += 16) {
-    std::cout << "0x" << std::setw(8) << std::setfill('0') << addr << ": ";
+    std::cout << "Memory [0x" << std::hex << start << " - 0x" << end << "]:\n";
 
-    for (int i = 0; i < 16; ++i) {
-      if (addr + i < end) {
-        std::cout << std::setw(2) << std::setfill('0')
-                  << static_cast<int>(memory.read8(addr + i)) << " ";
-      } else {
-        std::cout << "   ";
-      }
+    int cnt = 0;
+    for (uint32_t addr = start; addr < end; addr += 4) {
+        if (cnt == 0) {
+          std::cout << "0x" << std::setw(8) << std::setfill('0') << addr << ": ";
+        }
+
+        for (int i = 3; i >= 0; --i) {
+            std::cout << std::setw(2) << std::setfill('0')
+                      << std::hex << static_cast<int>(memory.read8(addr + i)) << " ";
+        }
+        ++cnt;
+
+        if (cnt == 4) {
+          std::cout << "\n";
+          cnt = 0;
+        }
     }
-
-    std::cout << "\n";
-  }
 }

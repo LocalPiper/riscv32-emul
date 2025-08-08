@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 
 void Memory::load_binary(const std::string &filename) {
   std::ifstream file(filename, std::ios::binary);
@@ -9,6 +10,10 @@ void Memory::load_binary(const std::string &filename) {
     throw std::runtime_error("Failed to open binary file");
 
   file.read(reinterpret_cast<char *>(mem.data()), mem.size());
+}
+
+void Memory::load_stdin() {
+  std::cin.read(reinterpret_cast<char *>(mem.data()), mem.size());
 }
 
 uint32_t Memory::load_word(uint32_t addr) const {
