@@ -5,8 +5,8 @@
 #include <iostream>
 
 void CPU::print_pc() const {
-  std::cout << std::left << std::setw(10) << "pc" << ": 0x" << std::hex
-            << std::setw(8) << std::setfill('0') << pc << "\n";
+  std::cout << std::left << std::setw(14) << "pc" << ": 0x" << std::hex
+            << std::setw(8) << std::setfill('0') << std::right << pc << "\n";
 }
 
 inline constexpr std::array<const char *, 32> regs_aliases = {
@@ -30,10 +30,7 @@ void CPU::print_regs() const {
     line << ": 0x";
 
     uint32_t reg_val = regs[i];
-    for (int byte = 3; byte >= 0; --byte) {
-      uint8_t b = (reg_val >> (8 * byte)) & 0xff;
-      line << std::setw(2) << std::setfill('0') << std::hex << static_cast<int>(b);
-    }
+    line << std::setfill('0') << std::setw(8) << std::right << std::hex << reg_val;
 
     std::cout << line.str() << "\n";
   }
@@ -42,21 +39,13 @@ void CPU::print_regs() const {
 void CPU::print_mem(uint32_t start, uint32_t end) const {
     std::cout << "Memory [0x" << std::hex << start << " - 0x" << end << "]:\n";
 
-    int cnt = 0;
-    for (uint32_t addr = start; addr < end; addr += 4) {
-        if (cnt == 0) {
-          std::cout << "0x" << std::setw(8) << std::setfill('0') << addr << ": ";
-        }
+    for (uint32_t addr = start; addr <= end; addr += 16) {
+      std::cout << "0x" << std::setfill('0') << std::setw(8) << std::right << std::hex << addr << ": ";
 
-        for (int i = 3; i >= 0; --i) {
-            std::cout << std::setw(2) << std::setfill('0')
-                      << std::hex << static_cast<int>(memory.read8(addr + i)) << " ";
-        }
-        ++cnt;
+      for (uint32_t i = 0; i < 4; ++i) {
+        std::cout << std::setfill('0') << std::setw(8) << std::right << std::hex << memory.load_word(addr + (i << 2)) << " ";
+      }
 
-        if (cnt == 4) {
-          std::cout << "\n";
-          cnt = 0;
-        }
+      std::cout << "\n";
     }
 }
