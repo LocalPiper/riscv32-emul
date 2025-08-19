@@ -1,6 +1,5 @@
 #include "../include/cpu.hpp"
 #include <array>
-#include <cstdint>
 #include <iomanip>
 #include <iostream>
 

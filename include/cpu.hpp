@@ -1,6 +1,8 @@
 #pragma once
 
 #include "memory.hpp"
+#include <cstdint>
+
 class CPU {
 public:
   CPU(Memory &mem);

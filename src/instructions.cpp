@@ -1,6 +1,5 @@
 #include "../include/instructions.hpp"
 #include "../include/instruction_defs.hpp"
-#include <cstdint>
 
 void execute_r_type(uint32_t inst, uint32_t regs[32]) {
   const uint8_t rd = get_rd(inst);
