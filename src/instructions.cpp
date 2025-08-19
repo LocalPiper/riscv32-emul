@@ -32,9 +32,9 @@ void execute_r_type(uint32_t inst, uint32_t regs[32]) {
        : regs[rs1] >> regs[rs2];
     }
   } else if (funct3 == 0x2) { // slt rd, rs1, rs2
-    regs[rd] = (regs[rs1] < regs[rs2]) ? 1 : 0;
+    regs[rd] = (static_cast<int32_t>(regs[rs1]) < static_cast<int32_t>(regs[rs2])) ? 1 : 0;
   } else if (funct3 == 0x3) { // sltu rd, rs1, rs2
-    // TODO: not sure that unsigned slt is the same
+    regs[rd] = (regs[rs1] < regs[rs2]) ? 1 : 0;
   }
 }
 
