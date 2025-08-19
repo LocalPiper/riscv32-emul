@@ -27,7 +27,9 @@ void execute_r_type(uint32_t inst, uint32_t regs[32]) {
     if (funct7 == 0x00) { // srl rd, rs1, rs2
       regs[rd] = regs[rs1] >> regs[rs2];
     } else if (funct7 == 0x20) { // sra rd, rs1, rs2
-      // TODO: this one is tricky, will implement later
+      regs[rd] = (regs[rs1] & 0x80000000) ?
+       (regs[rs1] >> regs[rs2]) | (0xFFFFFFFF << (32 - regs[rs2])) 
+       : regs[rs1] >> regs[rs2];
     }
   } else if (funct3 == 0x2) { // slt rd, rs1, rs2
     regs[rd] = (regs[rs1] < regs[rs2]) ? 1 : 0;
