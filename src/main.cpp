@@ -1,5 +1,5 @@
-#include "cpu.hpp"
-#include "memory.hpp"
+#include "../include/cpu.hpp"
+#include "../include/memory.hpp"
 
 int main(int argc, char** argv) {
   Memory mem;

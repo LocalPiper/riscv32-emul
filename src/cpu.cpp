@@ -1,6 +1,6 @@
-#include "cpu.hpp"
-#include "instruction_defs.hpp"
-#include "instructions.hpp"
+#include "../include/cpu.hpp"
+#include "../include/instruction_defs.hpp"
+#include "../include/instructions.hpp"
 #include <iostream>
 
 CPU::CPU(Memory &mem) : memory(mem) {}

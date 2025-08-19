@@ -1,4 +1,4 @@
-#include "cpu.hpp"
+#include "../include/cpu.hpp"
 #include <array>
 #include <cstdint>
 #include <iomanip>
