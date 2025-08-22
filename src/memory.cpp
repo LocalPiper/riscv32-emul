@@ -20,6 +20,14 @@ uint32_t Memory::load_word(uint32_t addr) const {
          (mem[addr + 3] << 24);
 }
 
+uint16_t Memory::load_half(uint32_t addr) const {
+  return mem[addr] | (mem[addr + 1] << 8);
+}
+
+uint8_t Memory::load_byte(uint32_t addr) const {
+  return mem[addr];
+}
+
 void Memory::store_word(uint32_t addr, uint32_t value) {
   mem[addr] = value & 0xFF;
   mem[addr + 1] = (value >> 8) & 0xFF;

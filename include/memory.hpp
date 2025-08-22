@@ -10,6 +10,8 @@ public:
   void load_binary(const std::string &filename);
   void load_stdin();
   uint32_t load_word(uint32_t addr) const;
+  uint16_t load_half(uint32_t addr) const;
+  uint8_t load_byte(uint32_t addr) const;
   void store_word(uint32_t addr, uint32_t value);
 
   // debug methods
