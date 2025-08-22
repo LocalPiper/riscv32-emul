@@ -34,3 +34,12 @@ void Memory::store_word(uint32_t addr, uint32_t value) {
   mem[addr + 2] = (value >> 16) & 0xFF;
   mem[addr + 3] = (value >> 24) & 0xFF;
 }
+
+void Memory::store_half(uint32_t addr, uint16_t value) {
+  mem[addr] = value & 0XFF;
+  mem[addr + 1] = (value >> 8) & 0xFF;
+}
+
+void Memory::store_byte(uint32_t addr, uint8_t value) {
+  mem[addr] = value;
+}
