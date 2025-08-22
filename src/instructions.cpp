@@ -68,3 +68,22 @@ void execute_i_type(uint32_t inst, uint32_t regs[32]) {
     regs[rd] = (regs[rs1] < static_cast<uint32_t>(imm))? 1 : 0;
   }
 }
+
+
+void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
+  const uint8_t imm_lower = get_rd(inst) & 0x1F; // does not look obvious, but works, imm[4:0]
+  const uint8_t funct3 = get_funct3(inst);
+  const uint8_t rs1 = get_rs1(inst);
+  const uint8_t rs2 = get_rs2(inst);
+  const uint8_t imm_upper = get_funct7(inst); // same code different shit, imm[11:5]
+
+  const int32_t imm = (imm_upper << 5) | imm_lower;
+
+  if (funct3 == 0x0) { // sb rs2, imm(rs1)
+    mem.store_byte(regs[rs1] + imm, static_cast<uint8_t>(regs[rs2]));
+  } else if (funct3 == 0x1) { // sh rs2, imm(rs1)
+    mem.store_half(regs[rs1] + imm, static_cast<uint16_t>(regs[rs2]));
+  } else if (funct3 == 0x2) { // sw rs2, imm(rs1)
+    mem.store_word(regs[rs1] + imm, regs[rs2]);
+  }
+}
