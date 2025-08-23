@@ -1,7 +1,7 @@
 from utils import to_signed32
 
 
-def test_add(compile_asm, run_emulator, parse_regs):
+def test_add(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -12,7 +12,7 @@ def test_add(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 42
@@ -20,7 +20,7 @@ def test_add(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 100
 
 
-def test_sub(compile_asm, run_emulator, parse_regs):
+def test_sub(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -31,7 +31,7 @@ def test_sub(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 200
@@ -39,7 +39,7 @@ def test_sub(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 142
 
 
-def test_xor(compile_asm, run_emulator, parse_regs):
+def test_xor(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -50,7 +50,7 @@ def test_xor(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 127
@@ -58,7 +58,7 @@ def test_xor(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 0
 
 
-def test_or(compile_asm, run_emulator, parse_regs):
+def test_or(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -69,7 +69,7 @@ def test_or(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 2
@@ -77,7 +77,7 @@ def test_or(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 3
 
 
-def test_and(compile_asm, run_emulator, parse_regs):
+def test_and(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -88,7 +88,7 @@ def test_and(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 14
@@ -96,7 +96,7 @@ def test_and(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 4
 
 
-def test_sll(compile_asm, run_emulator, parse_regs):
+def test_sll(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -107,7 +107,7 @@ def test_sll(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 1
@@ -115,7 +115,7 @@ def test_sll(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 64
 
 
-def test_srl(compile_asm, run_emulator, parse_regs):
+def test_srl(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -126,7 +126,7 @@ def test_srl(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 19
@@ -134,7 +134,7 @@ def test_srl(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 4
 
 
-def test_sra(compile_asm, run_emulator, parse_regs):
+def test_sra(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -145,7 +145,7 @@ def test_sra(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert to_signed32(regs["a0"]) == -11
@@ -153,7 +153,7 @@ def test_sra(compile_asm, run_emulator, parse_regs):
     assert to_signed32(regs["a2"]) == -3
 
 
-def test_slt(compile_asm, run_emulator, parse_regs):
+def test_slt(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -164,7 +164,7 @@ def test_slt(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert to_signed32(regs["a0"]) == -123
@@ -172,7 +172,7 @@ def test_slt(compile_asm, run_emulator, parse_regs):
     assert to_signed32(regs["a2"]) == 1
 
 
-def test_sltu(compile_asm, run_emulator, parse_regs):
+def test_sltu(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -183,7 +183,7 @@ def test_sltu(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 4294967173

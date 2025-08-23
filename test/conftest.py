@@ -42,7 +42,7 @@ def compile_asm():
 
 
 @pytest.fixture
-def run_emulator():
+def run_emulator_ok():
     def _run(binary: bytes) -> str:
         HERE = pathlib.Path(__file__).parent.resolve()
         EMU_PATH = (HERE.parent / "build" / "riscvemu").resolve()
@@ -57,6 +57,24 @@ def run_emulator():
         if proc.returncode != 0:
             raise RuntimeError(stderr.decode())
         return stdout.decode()
+
+    return _run
+
+
+@pytest.fixture
+def run_emulator_fail():
+    def _run(binary: bytes) -> tuple[int, str, str]:
+        HERE = pathlib.Path(__file__).parent.resolve()
+        EMU_PATH = (HERE.parent / "build" / "riscvemu").resolve()
+
+        proc = subprocess.Popen(
+            [str(EMU_PATH), "--test"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        stdout, stderr = proc.communicate(input=binary)
+        return proc.returncode, stdout.decode(), stderr.decode()
 
     return _run
 

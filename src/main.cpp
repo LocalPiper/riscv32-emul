@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   try {
     cpu.run();
   } catch (std::runtime_error& err) {
-    std::cout << err.what() << "\n";
+    std::cerr << err.what() << "\n";
     return 1;
   }
 

@@ -1,7 +1,7 @@
 from utils import to_signed32
 
 
-def test_addi(compile_asm, run_emulator, parse_regs):
+def test_addi(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -11,7 +11,7 @@ def test_addi(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -19,7 +19,7 @@ def test_addi(compile_asm, run_emulator, parse_regs):
     assert to_signed32(regs["a2"]) == -2
 
 
-def test_xori(compile_asm, run_emulator, parse_regs):
+def test_xori(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -29,7 +29,7 @@ def test_xori(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -37,7 +37,7 @@ def test_xori(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 0
 
 
-def test_ori(compile_asm, run_emulator, parse_regs):
+def test_ori(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -47,7 +47,7 @@ def test_ori(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -55,7 +55,7 @@ def test_ori(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 15
 
 
-def test_andi(compile_asm, run_emulator, parse_regs):
+def test_andi(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -65,7 +65,7 @@ def test_andi(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -73,7 +73,7 @@ def test_andi(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 0
 
 
-def test_slli(compile_asm, run_emulator, parse_regs):
+def test_slli(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -83,7 +83,7 @@ def test_slli(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -91,7 +91,7 @@ def test_slli(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 32
 
 
-def test_srli(compile_asm, run_emulator, parse_regs):
+def test_srli(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -101,7 +101,7 @@ def test_srli(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -109,7 +109,7 @@ def test_srli(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 2
 
 
-def test_srai(compile_asm, run_emulator, parse_regs):
+def test_srai(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -119,7 +119,7 @@ def test_srai(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -127,7 +127,7 @@ def test_srai(compile_asm, run_emulator, parse_regs):
     assert to_signed32(regs["a2"]) == -2
 
 
-def test_slti(compile_asm, run_emulator, parse_regs):
+def test_slti(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -137,7 +137,7 @@ def test_slti(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
@@ -145,7 +145,7 @@ def test_slti(compile_asm, run_emulator, parse_regs):
     assert regs["a2"] == 0
 
 
-def test_sltiu(compile_asm, run_emulator, parse_regs):
+def test_sltiu(compile_asm, run_emulator_ok, parse_regs):
     asm = """
         .section .text
         .globl _start
@@ -155,7 +155,7 @@ def test_sltiu(compile_asm, run_emulator, parse_regs):
         j .
     """
     binary = compile_asm(asm)
-    output = run_emulator(binary)
+    output = run_emulator_ok(binary)
     regs = parse_regs(output)
 
     assert regs["a0"] == 0
