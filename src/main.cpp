@@ -1,5 +1,7 @@
 #include "../include/cpu.hpp"
 #include "../include/memory.hpp"
+#include <iostream>
+#include <stdexcept>
 
 int main(int argc, char** argv) {
   Memory mem;
@@ -11,7 +13,12 @@ int main(int argc, char** argv) {
     mem.load_binary("program.bin");
   }
 
-  cpu.run();
+  try {
+    cpu.run();
+  } catch (std::runtime_error& err) {
+    std::cout << err.what() << "\n";
+    return 1;
+  }
 
   return 0;
 }

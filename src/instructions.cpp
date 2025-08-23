@@ -1,5 +1,15 @@
 #include "../include/instructions.hpp"
 #include "../include/instruction_defs.hpp"
+#include <iomanip>
+#include <ios>
+#include <sstream>
+#include <stdexcept>
+
+inline std::string to_hex(uint32_t value) {
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(8) << std::right << std::hex << value;
+    return oss.str();
+}
 
 void execute_r_type(uint32_t inst, uint32_t regs[32]) {
   const uint8_t rd = get_rd(inst);
@@ -78,12 +88,15 @@ void execute_i_type_load(uint32_t inst, uint32_t regs[32], Memory& mem) {
   if (funct3 == 0x0) { // lb rd, imm(rs1)
     regs[rd] = static_cast<int8_t>(mem.load_byte(regs[rs1] + imm)); 
   } else if (funct3 == 0x1) { // lh rd, imm(rs1)
+    if ((regs[rs1] + imm) % 2 != 0) throw std::runtime_error("Misaligned load (lh) at address 0x" + to_hex(regs[rs1] + imm)); 
     regs[rd] = static_cast<int16_t>(mem.load_half(regs[rs1] + imm));
   } else if (funct3 == 0x2) { // lw rd, imm(rs1)
+    if ((regs[rs1] + imm) % 4 != 0) throw std::runtime_error("Misaligned load (lw) at address 0x" + to_hex(regs[rs1] + imm)); 
     regs[rd] = mem.load_word(regs[rs1] + imm);
   } else if (funct3 == 0x4) { // lbu rd, imm(rs1)
     regs[rd] = mem.load_byte(regs[rs1] + imm);
   } else if (funct3 == 0x5) { // lhu rd, imm(rs1)
+    if ((regs[rs1] + imm) % 2 != 0) throw std::runtime_error("Misaligned load (lhu) at address 0x" + to_hex(regs[rs1] + imm)); 
     regs[rd] = mem.load_half(regs[rs1] + imm);
   }
 }
@@ -100,8 +113,10 @@ void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
   if (funct3 == 0x0) { // sb rs2, imm(rs1)
     mem.store_byte(regs[rs1] + imm, static_cast<uint8_t>(regs[rs2]));
   } else if (funct3 == 0x1) { // sh rs2, imm(rs1)
+    if ((regs[rs1] + imm) % 2 != 0) throw std::runtime_error("Misaligned store (sh) at address 0x" + to_hex(regs[rs1] + imm)); 
     mem.store_half(regs[rs1] + imm, static_cast<uint16_t>(regs[rs2]));
   } else if (funct3 == 0x2) { // sw rs2, imm(rs1)
+    if ((regs[rs1] + imm) % 4 != 0) throw std::runtime_error("Misaligned store (sw) at address 0x" + to_hex(regs[rs1] + imm)); 
     mem.store_word(regs[rs1] + imm, regs[rs2]);
   }
 }
