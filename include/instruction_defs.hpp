@@ -9,7 +9,8 @@ constexpr uint8_t OPCODE_R = 0x33;        // R-type
 constexpr uint8_t OPCODE_I = 0x13;        // I-type
 constexpr uint8_t OPCODE_J = 0x6F;        // J-type
 constexpr uint8_t OPCODE_B = 0x63;        // B-type
-constexpr uint8_t OPCODE_I_LOAD = 0x03;   // I-type
+constexpr uint8_t OPCODE_I_LOAD = 0x03;   // lb, lh, lw, lbu, lhu
+constexpr uint8_t OPCODE_I_JALR = 0x67;   // jalr
 constexpr uint8_t OPCODE_S = 0x23;        // S-type
 constexpr uint8_t OPCODE_I_SYSTEM = 0x73; // ecall, ebreak
 

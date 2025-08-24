@@ -35,6 +35,10 @@ void CPU::execute(uint32_t inst) {
   case OPCODE_I_LOAD:
     execute_i_type_load(inst, regs, memory);
     break;
+  case OPCODE_I_JALR:
+    called_j = true;
+    execute_i_type_jalr(inst, regs, pc);
+    break;
   case OPCODE_S:
     execute_s_type(inst, regs, memory);
     break;

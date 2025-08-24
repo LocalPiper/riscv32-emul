@@ -98,6 +98,18 @@ void execute_i_type_load(uint32_t inst, uint32_t regs[32], Memory& mem) {
   }
 }
 
+void execute_i_type_jalr(uint32_t inst, uint32_t regs[32], uint32_t &pc) {
+  const uint8_t rd = get_rd(inst);
+  const uint8_t rs1 = get_rs1(inst);
+  const uint8_t funct3 = get_funct3(inst);
+  const int32_t imm = get_imm_i(inst);
+
+  if (funct3 == 0x0) { // jalr rd, rs1, imm
+    regs[rd] = pc + 4;
+    pc = regs[rs1] + imm;
+  }
+}
+
 void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
   const uint8_t funct3 = get_funct3(inst);
   const uint8_t rs1 = get_rs1(inst);
