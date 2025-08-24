@@ -33,9 +33,19 @@ inline constexpr int32_t get_imm_i(uint32_t inst) {
   return static_cast<int32_t>(inst) >> 20;
 }
 
-// S-type|B-type
+// S-type
 inline constexpr uint8_t get_imm_sl(uint32_t inst) { return get_rd(inst); };
 inline constexpr uint8_t get_imm_sh(uint32_t inst) { return get_funct7(inst); };
+
+// B-type
+inline constexpr int32_t get_imm_b(uint32_t inst) {
+    int32_t imm = 0;
+    imm |= ((inst >> 31) & 0x1)  << 12;  // imm[12]
+    imm |= ((inst >> 25) & 0x3F) << 5;  // imm[10:5]
+    imm |= ((inst >> 8)  & 0xF)  << 1;  // imm[4:1]
+    imm |= ((inst >> 7)  & 0x1)  << 11; // imm[11]
+    return (imm << 19) >> 19;
+}
 
 // U-type|J-type
 inline constexpr int32_t get_imm_uj(uint32_t inst) {
