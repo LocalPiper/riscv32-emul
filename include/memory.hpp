@@ -22,3 +22,7 @@ public:
 private:
   std::vector<uint8_t> mem = std::vector<uint8_t>(MEM_SIZE, 0);
 };
+
+inline bool boundary_check(int32_t addr) {
+  return addr >= 0 && addr <= static_cast<int32_t>(Memory::MEM_SIZE - 1);
+}

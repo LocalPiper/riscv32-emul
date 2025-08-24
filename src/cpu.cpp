@@ -1,12 +1,15 @@
 #include "../include/cpu.hpp"
 #include "../include/instruction_defs.hpp"
 #include "../include/instructions.hpp"
+#include "../include/utils.hpp"
 #include <iostream>
+#include <stdexcept>
 
 CPU::CPU(Memory &mem) : memory(mem) {}
 
 void CPU::run() {
   while (true) {
+    if (!boundary_check(pc)) throw std::runtime_error("Instruction access fault at address 0x" + to_hex(pc));
     uint32_t inst = memory.load_word(pc);
     execute(inst);
   }
