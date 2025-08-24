@@ -171,3 +171,37 @@ def test_sw_misaligned(compile_asm, run_emulator_fail):
 
     assert code == 1
     assert "Misaligned store (sw)" in error
+
+
+def test_store_oob(compile_asm, run_emulator_fail):
+    asm = """
+        .section .text
+        .globl _start
+    _start:
+        li a0, -42
+        li a1, 0x0
+        sw a0, -4(a1)
+        j .
+    """
+    binary = compile_asm(asm)
+    code, _, error = run_emulator_fail(binary)
+
+    assert code == 1
+    assert "Store access fault" in error
+
+
+def test_load_oob(compile_asm, run_emulator_fail):
+    asm = """
+        .section .text
+        .globl _start
+    _start:
+        li a0, -42
+        li a1, 0x0
+        lw a0, -4(a1)
+        j .
+    """
+    binary = compile_asm(asm)
+    code, _, error = run_emulator_fail(binary)
+
+    assert code == 1
+    assert "Load access fault" in error
