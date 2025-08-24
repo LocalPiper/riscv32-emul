@@ -50,7 +50,17 @@ inline constexpr int32_t get_imm_b(uint32_t inst) {
     return (imm << 19) >> 19;
 }
 
-// U-type|J-type
-inline constexpr int32_t get_imm_uj(uint32_t inst) {
-  return static_cast<int32_t>(inst) >> 12;
+// J-type
+inline int32_t get_imm_j(uint32_t inst) {
+    int32_t imm = 0;
+
+    imm |= (inst & 0x7FE00000) >> 20;   // inst[30:21] -> imm[10:1]
+    imm |= (inst & 0x00100000) >> 9;    // inst[20] -> imm[11]
+    imm |= (inst & 0x000FF000);         // inst[19:12] -> imm[19:12]
+    imm |= (inst & 0x80000000) >> 11;   // inst[31] -> imm[20]
+
+    imm = (imm << 11) >> 11;
+
+    return imm;
 }
+

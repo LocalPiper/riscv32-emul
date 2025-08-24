@@ -119,7 +119,7 @@ void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
   }
 }
 
-void execute_b_type(uint32_t inst, uint32_t *regs, uint32_t &pc) {
+void execute_b_type(uint32_t inst, uint32_t regs[32], uint32_t &pc) {
   const uint8_t funct3 = get_funct3(inst);
   const uint8_t rs1 = get_rs1(inst);
   const uint8_t rs2 = get_rs2(inst);
@@ -139,4 +139,13 @@ void execute_b_type(uint32_t inst, uint32_t *regs, uint32_t &pc) {
   } else if (funct3 == 0x7) { // bgeu rs1, rs2, imm
     if (regs[rs1] >= regs[rs2]) pc += imm;
   }
+}
+
+void execute_j_type(uint32_t inst, uint32_t regs[32], uint32_t &pc) {
+  const uint8_t rd = get_rd(inst);
+  const int32_t imm = get_imm_j(inst);
+
+  // jal rd, imm
+  if (rd != 0) regs[rd] = pc + 4;
+  pc += imm;
 }
