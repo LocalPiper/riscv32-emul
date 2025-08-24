@@ -34,8 +34,11 @@ inline constexpr int32_t get_imm_i(uint32_t inst) {
 }
 
 // S-type
-inline constexpr uint8_t get_imm_sl(uint32_t inst) { return get_rd(inst); };
-inline constexpr uint8_t get_imm_sh(uint32_t inst) { return get_funct7(inst); };
+inline constexpr int32_t get_imm_s(uint32_t inst) {
+    int32_t imm = ((inst >> 25) << 5) | ((inst >> 7) & 0x1F); // imm[11:0]
+    if (imm & 0x800) imm |= 0xFFFFF000;
+    return imm;
+}
 
 // B-type
 inline constexpr int32_t get_imm_b(uint32_t inst) {
