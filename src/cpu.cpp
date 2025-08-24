@@ -14,6 +14,7 @@ void CPU::run() {
 
 void CPU::execute(uint32_t inst) {
   const uint8_t opcode = get_opcode(inst);
+  const uint32_t prev_pc = pc;
   using namespace opcodes;
   switch (opcode) {
   case OPCODE_R:
@@ -28,6 +29,9 @@ void CPU::execute(uint32_t inst) {
   case OPCODE_S:
     execute_s_type(inst, regs, memory);
     break;
+  case OPCODE_B:
+    execute_b_type(inst, regs, pc);
+    break;
   case OPCODE_J:
     print_pc();
     print_regs();
@@ -39,6 +43,7 @@ void CPU::execute(uint32_t inst) {
   }
 
   regs[0] = 0; // x0 is always zero
-  pc += 4;     // instructions are always uint32_t words, and memory consists of
-               // uint8_t words
+  if (prev_pc == pc) {
+    pc += 4;     // instructions are always uint32_t words, and memory consists of
+  }              // uint8_t words
 }

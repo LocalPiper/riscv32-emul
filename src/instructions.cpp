@@ -120,3 +120,27 @@ void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
     mem.store_word(regs[rs1] + imm, regs[rs2]);
   }
 }
+
+void execute_b_type(uint32_t inst, uint32_t *regs, uint32_t &pc) {
+  const uint8_t imm_lower = get_imm_sl(inst);
+  const uint8_t funct3 = get_funct3(inst);
+  const uint8_t rs1 = get_rs1(inst);
+  const uint8_t rs2 = get_rs2(inst);
+  const uint8_t imm_upper = get_imm_sh(inst);
+
+  const int32_t imm = (imm_upper << 5) | imm_lower;
+
+  if (funct3 == 0x0) { // beq rs1, rs2, imm
+    if (static_cast<int32_t>(regs[rs1]) == static_cast<int32_t>(regs[rs2])) pc += imm;
+  } else if (funct3 == 0x1) { // bne rs1, rs2, imm
+    if (static_cast<int32_t>(regs[rs1]) != static_cast<int32_t>(regs[rs2])) pc += imm;
+  } else if (funct3 == 0x4) { // blt rs1, rs2, imm
+    if (static_cast<int32_t>(regs[rs1]) < static_cast<int32_t>(regs[rs2])) pc += imm;
+  } else if (funct3 == 0x5) { // bge rs1, rs2, imm
+    if (static_cast<int32_t>(regs[rs1]) >= static_cast<int32_t>(regs[rs2])) pc += imm;
+  } else if (funct3 == 0x6) { // bltu rs1, rs2, imm
+    if (regs[rs1] < regs[rs2]) pc += imm;
+  } else if (funct3 == 0x7) { // bgeu rs1, rs2, imm
+    if (regs[rs1] >= regs[rs2]) pc += imm;
+  }
+}
