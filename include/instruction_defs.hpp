@@ -32,3 +32,12 @@ inline constexpr uint8_t get_funct7(uint32_t inst) {
 inline constexpr int32_t get_imm_i(uint32_t inst) {
   return static_cast<int32_t>(inst) >> 20;
 }
+
+// S-type|B-type
+inline constexpr uint8_t get_imm_sl(uint32_t inst) { return get_rd(inst); };
+inline constexpr uint8_t get_imm_sh(uint32_t inst) { return get_funct7(inst); };
+
+// U-type|J-type
+inline constexpr int32_t get_imm_uj(uint32_t inst) {
+  return static_cast<int32_t>(inst) >> 12;
+}

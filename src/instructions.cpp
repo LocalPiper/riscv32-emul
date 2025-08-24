@@ -102,11 +102,11 @@ void execute_i_type_load(uint32_t inst, uint32_t regs[32], Memory& mem) {
 }
 
 void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
-  const uint8_t imm_lower = get_rd(inst) & 0x1F; // does not look obvious, but works, imm[4:0]
+  const uint8_t imm_lower = get_imm_sl(inst);
   const uint8_t funct3 = get_funct3(inst);
   const uint8_t rs1 = get_rs1(inst);
   const uint8_t rs2 = get_rs2(inst);
-  const uint8_t imm_upper = get_funct7(inst); // same code different shit, imm[11:5]
+  const uint8_t imm_upper = get_imm_sh(inst);
 
   const int32_t imm = (imm_upper << 5) | imm_lower;
 
