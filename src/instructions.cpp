@@ -11,6 +11,10 @@ inline std::string to_hex(uint32_t value) {
     return oss.str();
 }
 
+inline bool boundary_check(int32_t addr, int32_t offset) {
+  return (addr + offset) >= 0 && (addr + offset) <= static_cast<int32_t>(Memory::MEM_SIZE - 1);
+}
+
 void execute_r_type(uint32_t inst, uint32_t regs[32]) {
   const uint8_t rd = get_rd(inst);
   const uint8_t rs1 = get_rs1(inst);
@@ -86,6 +90,7 @@ void execute_i_type_load(uint32_t inst, uint32_t regs[32], Memory& mem) {
   const int32_t imm = get_imm_i(inst);
 
   const uint32_t addr = regs[rs1] + imm;
+  if (!boundary_check(regs[rs1], imm)) throw std::runtime_error("Load access fault at address 0x" + to_hex(addr));
 
   if (funct3 == 0x0) { // lb rd, imm(rs1)
     regs[rd] = static_cast<int8_t>(mem.load_byte(addr)); 
@@ -111,6 +116,7 @@ void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem) {
   const int32_t imm = get_imm_s(inst);
 
   const uint32_t addr = regs[rs1] + imm;
+  if (!boundary_check(regs[rs1], imm)) throw std::runtime_error("Store access fault at address 0x" + to_hex(addr));
 
   if (funct3 == 0x0) { // sb rs2, imm(rs1)
     mem.store_byte(addr, static_cast<uint8_t>(regs[rs2]));
