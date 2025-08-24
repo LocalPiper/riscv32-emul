@@ -10,3 +10,5 @@ void execute_i_type_jalr(uint32_t inst, uint32_t regs[32], uint32_t& pc);
 void execute_s_type(uint32_t inst, uint32_t regs[32], Memory& mem);
 void execute_b_type(uint32_t inst, uint32_t regs[32], uint32_t& pc);
 void execute_j_type(uint32_t inst, uint32_t regs[32], uint32_t& pc);
+void execute_u_type(uint32_t inst, uint32_t regs[32]);
+void execute_u_type_auipc(uint32_t inst, uint32_t regs[32], uint32_t& pc);

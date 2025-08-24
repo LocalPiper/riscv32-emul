@@ -45,6 +45,12 @@ void CPU::execute(uint32_t inst) {
   case OPCODE_B:
     execute_b_type(inst, regs, pc);
     break;
+  case OPCODE_U:
+    execute_u_type(inst, regs);
+    break;
+  case OPCODE_U_AUIPC:
+    execute_u_type_auipc(inst, regs, pc);
+    break;
   case OPCODE_J:
     called_j = true;
     execute_j_type(inst, regs, pc);

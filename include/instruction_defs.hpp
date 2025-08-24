@@ -12,6 +12,8 @@ constexpr uint8_t OPCODE_B = 0x63;        // B-type
 constexpr uint8_t OPCODE_I_LOAD = 0x03;   // lb, lh, lw, lbu, lhu
 constexpr uint8_t OPCODE_I_JALR = 0x67;   // jalr
 constexpr uint8_t OPCODE_S = 0x23;        // S-type
+constexpr uint8_t OPCODE_U = 0x37;        // U-type
+constexpr uint8_t OPCODE_U_AUIPC = 0x17;  // auipc
 constexpr uint8_t OPCODE_I_SYSTEM = 0x73; // ecall, ebreak
 
 } // namespace opcodes
@@ -63,5 +65,10 @@ inline int32_t get_imm_j(uint32_t inst) {
     imm = (imm << 11) >> 11;
 
     return imm;
+}
+
+// U-type
+inline int32_t get_imm_u(uint32_t inst) {
+  return static_cast<int32_t>(inst) >> 12;
 }
 

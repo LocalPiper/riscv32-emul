@@ -161,3 +161,19 @@ void execute_j_type(uint32_t inst, uint32_t regs[32], uint32_t &pc) {
   if (rd != 0) regs[rd] = pc + 4;
   pc += imm;
 }
+
+void execute_u_type(uint32_t inst, uint32_t regs[32]) {
+  const uint8_t rd = get_rd(inst);
+  const int32_t imm = get_imm_u(inst);
+
+  // lui rd, imm
+  regs[rd] = imm << 12;
+}
+
+void execute_u_type_auipc(uint32_t inst, uint32_t regs[32], uint32_t &pc) {
+  const uint8_t rd = get_rd(inst);
+  const int32_t imm = get_imm_u(inst);
+
+  // auipc rd, imm
+  regs[rd] = pc + (imm << 12);
+}
